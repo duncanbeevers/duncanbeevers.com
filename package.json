@@ -4,6 +4,7 @@
   "description": "dweebd.com",
   "dependencies": {
     "grunt": "*",
-    "grunt-cli": "*"
+    "grunt-cli": "*",
+    "coffee-script": "*"
   }
 }
