@@ -1,6 +1,7 @@
 {
   "name": "dweebd.com",
   "version": "0.0.1",
+  "description": "dweebd.com",
   "dependencies": {
     "grunt": "*",
     "grunt-cli": "*"
