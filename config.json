@@ -1,6 +1,7 @@
 {
   "plugins": [
     "./node_modules/wintersmith-kelvin/",
+    "./node_modules/wintersmith-coffee/",
     "./plugins/stylesheet_link_tag"
   ],
   "jade": {
@@ -10,11 +11,12 @@
     "assets": {
       "css": {
         "all": [
-          "/_/*.css"
+          "/css/*.css"
         ]
       },
       "js": {
         "all": [
+         "/js/*.coffee"
         ]
       }
     },

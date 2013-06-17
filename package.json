@@ -4,6 +4,7 @@
   "description": "dweebd.com",
   "dependencies": {
     "wintersmith": "*",
-    "wintersmith-kelvin": "*"
+    "wintersmith-kelvin": "*",
+    "wintersmith-coffee": "git://github.com/lhagan/wintersmith-coffee.git"
   }
 }
