@@ -3,13 +3,11 @@ html(lang="en")
   head
     title
       block title
-
-    include styles
+    link(rel="stylesheet", href="/css/normalize.css")
+    link(rel="stylesheet", href="/css/site.css")
 
 body
-  include debug
-
   main
     block main
-  footer
-    include footer
+
+  include footer

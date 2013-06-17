@@ -1,0 +1,16 @@
+h1, p, pre, ul { margin: 0; }
+ul { -webkit-padding-start: 0; }
+
+.footer {
+  height: 500px;
+}
+.demo {
+  height: 100px;
+  width: 100%;
+}
+.bottom {
+  display: block;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
