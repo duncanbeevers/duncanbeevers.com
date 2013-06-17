@@ -3,14 +3,39 @@ ul { -webkit-padding-start: 0; }
 
 .footer {
   height: 500px;
+  position: relative;
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-image: url(/img/speakersitter-sil.png);
 }
 .demo {
-  height: 100px;
+  height: 400px;
   width: 100%;
+  opacity: 0.25;
 }
 .bottom {
   display: block;
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   width: 100%;
+}
+
+.list-with-favicons {
+  margin-top: 12px;
+}
+
+.article {
+  margin-top: 12px;
+}
+
+.heading {
+  margin-top: 12px;
+}
+.title {
+  margin-top: 12px;
+}
+.main {
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
 }
