@@ -1,0 +1,26 @@
+{
+  "plugins": [
+    "./node_modules/wintersmith-kelvin/",
+    "./plugins/stylesheet_link_tag"
+  ],
+  "jade": {
+    "pretty": false
+  },
+  "locals": {
+    "assets": {
+      "css": {
+        "all": [
+          "/_/*.css"
+        ]
+      },
+      "js": {
+        "all": [
+        ]
+      }
+    },
+    "mode": "development"
+  },
+  "require": {
+    "json_stringify_once": "./lib/json_stringify_once"
+  }
+}

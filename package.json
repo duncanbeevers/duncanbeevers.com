@@ -3,8 +3,7 @@
   "version": "0.0.1",
   "description": "dweebd.com",
   "dependencies": {
-    "grunt": "*",
-    "grunt-cli": "*",
-    "coffee-script": "*"
+    "wintersmith": "*",
+    "wintersmith-kelvin": "*"
   }
 }

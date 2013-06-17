@@ -1,0 +1,8 @@
+h1 Debug
+  h2 Locals
+  pre
+    != json_stringify_once(locals, undefined, 2)
+
+  h2 Env
+  pre
+    != json_stringify_once(env, undefined, 2)
