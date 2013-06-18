@@ -60,19 +60,17 @@ drawBlock = (perform_draw, now, i, block_width, block_height, combined_size, col
   else
     image_data = context.getImageData(x, y, block_width, block_height)
     data = image_data.data
-    for a, i in image_data.data by 4
+    for a, i in data by 4
       alpha = data[i + 3]
       data[i + 3] = ceil(alpha - 1, 0)
 
     context.putImageData(image_data, x, y)
 
 
+block_size = 6
+gutter_size = 8
 
-tick = (reschedule, context, width, height, now) ->
-  reschedule()
-
-  block_size = 6
-  gutter_size = 8
+tick = (context, width, height, now) ->
   combined_size = block_size + gutter_size
 
   columns = floor(width / combined_size)
@@ -80,7 +78,7 @@ tick = (reschedule, context, width, height, now) ->
 
   drawBlock(false, now, 0, width, height, 0, 1, 1, context)
 
-  for _ in [1..20]
+  for [1..20]
     drawBlock(true, now, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
 
 module.exports = tick

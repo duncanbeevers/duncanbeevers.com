@@ -1,4 +1,12 @@
-rdots = require("./rdots_demo.coffee")
+random = Math.random
+floor = Math.floor
+
+demos = [
+  require("./rdots_demo.coffee"),
+  require("./lumps_demo.coffee")
+]
+
+demo = demos[floor(random() * demos.length)]
 
 # Get the moment, controls clock rate
 getNow = -> floor(new Date())
@@ -29,7 +37,8 @@ floor                 = Math.floor
 start = getNow()
 
 onTick = ->
-  reschedule = -> requestAnimationFrame(onTick)
+  requestAnimationFrame(onTick)
+
   now = getNow()
 
   # Try and get element and 2d context
@@ -51,7 +60,7 @@ onTick = ->
     ele.height = ele_height
 
   # Invoke the plugin
-  rdots(reschedule, context, ele_width, ele_height, now)
+  demo(context, ele_width, ele_height, now)
 
 module.exports =
   start: () ->
