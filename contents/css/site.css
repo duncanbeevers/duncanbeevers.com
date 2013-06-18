@@ -32,11 +32,13 @@ html {
 .favicon {
   display: inline-block;
   margin-top: 12px;
-  padding-left: 24px;
-  background-position: top left;
+  margin-left: 2px;
+  padding-left: 28px;
+  background-position: 2px 2px;
   background-repeat: no-repeat;
   text-decoration: none;
   color: #302030;
+  width: 100%;
 }
 .favicon:hover {
   text-decoration: underline;
