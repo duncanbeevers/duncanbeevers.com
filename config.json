@@ -2,6 +2,7 @@
   "plugins": [
     "./node_modules/wintersmith-kelvin/",
     "./node_modules/wintersmith-coffee/",
+    "./node_modules/wintersmith-browserify/",
     "./plugins/stylesheet_link_tag"
   ],
   "jade": {
@@ -24,7 +25,6 @@
   },
   "require": {
     "json_stringify_once": "./lib/json_stringify_once"
-  }
   },
   "ignore": [ ".DS_Store", "*/.DS_Store" ]
 }

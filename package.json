@@ -6,6 +6,6 @@
     "coffee-script": "*",
     "wintersmith": "*",
     "wintersmith-kelvin": "*",
-    "wintersmith-coffee": "git://github.com/lhagan/wintersmith-coffee.git"
+    "wintersmith-browserify": "*"
   }
 }
