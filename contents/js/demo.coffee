@@ -21,6 +21,7 @@ getContext = do ->
 # shorthand function refences
 requestAnimationFrame = window.requestAnimationFrame
 getComputedStyle      = window.getComputedStyle
+ceil                  = Math.ceil
 floor                 = Math.floor
 random                = Math.random
 
@@ -62,7 +63,7 @@ onTick = ->
     ele.height = height
 
   block_size = 6
-  gutter_size = 4
+  gutter_size = 8
   combined_size = block_size + gutter_size
 
   columns = floor(width / combined_size) + 1
@@ -71,32 +72,48 @@ onTick = ->
   # i = (getNow() - start) % (columns * rows)
   # drawBlock(i, block_size, combined_size, columns, rows, context)
 
-  for _ in [1..10]
-    drawBlock(true, floor(random() * columns * rows), block_size, combined_size, columns, rows, context)
+  # for _ in [1..10]
+  # drawBlock(false, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
+  drawBlock(false, 0, width, height, 0, 1, 1, context)
 
-  for _ in [1..10]
-    drawBlock(false, floor(random() * columns * rows), block_size, combined_size, columns, rows, context)
+  for _ in [1..20]
+    drawBlock(true, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
 
 
 # Draws the requested block to the 2d context
-drawBlock = (perform_draw, i, block_size, combined_size, columns, rows, context) ->
+drawBlock = (perform_draw, i, block_width, block_height, combined_size, columns, rows, context) ->
   col = floor(i / rows) % columns
   row = i % rows
 
-  context.clearRect(col * combined_size, row * combined_size, block_size, block_size)
+  x = col * combined_size
+  y = row * combined_size
 
   if perform_draw
-    hue        = (col / columns) * Math.PI * 2
+    now = getNow()
+    n = now / 2000
+    hue        = ((col / columns) * Math.PI * 2 + n) % (Math.PI * 2)
     saturation = 1
     value      = (row / rows) * 0.5
     [ red, green, blue ] = hsv2rgb(hue, saturation, value)
 
-    opacity = (row / rows) * (col / columns)
+    # opacity = (row / rows) * (col / columns)
+    opacity = (row / rows)
     fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
 
+    context.clearRect(col * combined_size, row * combined_size, block_width, block_height)
     context.fillStyle = fill_style
-    context.fillRect(col * combined_size, row * combined_size, block_size, block_size)
+    context.beginPath()
+    context.arc(x + block_width / 2, y + block_height / 2, Math.min(block_width, block_height) / 2, 0, Math.PI * 2, 0)
+    context.fill()
+    # context.fillRect(x, y, block_width, block_height)
+  else
+    image_data = context.getImageData(x, y, block_width, block_height)
+    data = image_data.data
+    for a, i in image_data.data by 4
+      alpha = data[i + 3]
+      data[i + 3] = ceil(alpha - 1, 0)
 
+    context.putImageData(image_data, x, y)
 
 
 

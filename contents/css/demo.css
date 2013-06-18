@@ -1,0 +1,12 @@
+.demo {
+  height: 400px;
+  width: 100%;
+  opacity: 0.3;
+}
+
+.bottom {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
