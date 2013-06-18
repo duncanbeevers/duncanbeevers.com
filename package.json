@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "dweebd.com",
   "dependencies": {
+    "coffee-script": "*",
     "wintersmith": "*",
     "wintersmith-kelvin": "*",
     "wintersmith-coffee": "git://github.com/lhagan/wintersmith-coffee.git"

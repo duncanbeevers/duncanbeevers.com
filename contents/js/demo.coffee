@@ -41,20 +41,22 @@ onTick = ->
 
   # Demo resolution equals rendered dimensions
   ele_computed_style = getComputedStyle(ele)
-  par_computed_style = getComputedStyle(ele.parentNode)
-  doc_computed_style = getComputedStyle(document.body)
+  # par_computed_style = getComputedStyle(ele.parentNode)
+  # doc_computed_style = getComputedStyle(document.body)
 
-  par_width = parseInt(par_computed_style.width, 10)
-  doc_width = parseInt(doc_computed_style.width, 10)
+  ele_width = parseInt(ele_computed_style.width, 10)
+  ele_height = parseInt(ele_computed_style.height, 10)
+  # par_width = parseInt(par_computed_style.width, 10)
+  # doc_width = parseInt(doc_computed_style.width, 10)
 
-  gutters_width = doc_width - par_width
-  gutter_width = floor(gutters_width / 2)
+  # gutters_width = doc_width - par_width
+  # gutter_width = floor(gutters_width / 2)
 
-  ele.style.left = "-#{gutter_width}px"
-  ele.style.width = "#{doc_width}px"
+  # ele.style.left = "-#{gutter_width}px"
+  # ele.style.width = "#{doc_width}px"
 
-  width = doc_width
-  height = parseInt(ele_computed_style.height, 10)
+  width = ele_width
+  height = ele_height
 
   # If the computed size of the element changed,
   # apply the values literally
@@ -66,8 +68,8 @@ onTick = ->
   gutter_size = 8
   combined_size = block_size + gutter_size
 
-  columns = floor(width / combined_size) + 1
-  rows = floor(height / combined_size) + 1
+  columns = floor(width / combined_size)
+  rows = floor(height / combined_size)
 
   # i = (getNow() - start) % (columns * rows)
   # drawBlock(i, block_size, combined_size, columns, rows, context)
