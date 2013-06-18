@@ -4,6 +4,8 @@ ul { -webkit-padding-start: 0; }
 
 html {
   font-family: Georgia, serif;
+  background-color: #f4f4f4;
+  color: #302030;
 }
 
 .footer {
@@ -14,10 +16,12 @@ html {
   /*background-image: url(/img/speakersitter-sil.png);*/
   background-image: url(/img/speakersitter-sil.png);
   margin-top: 24px;
-  padding-top: 48px;
   max-width: 720px;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 48px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .list-with-favicons {
@@ -31,6 +35,7 @@ html {
   background-position: top left;
   background-repeat: no-repeat;
   text-decoration: none;
+  color: #302030;
 }
 .favicon:hover {
   text-decoration: underline;
@@ -48,6 +53,8 @@ html {
 .article {
   margin-top: 48px;
   line-height: 24px;
+  padding-left: 12px;
+  padding-right: 12px;
 }
 
 .heading {
