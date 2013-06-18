@@ -25,4 +25,6 @@
   "require": {
     "json_stringify_once": "./lib/json_stringify_once"
   }
+  },
+  "ignore": [ ".DS_Store", "*/.DS_Store" ]
 }
