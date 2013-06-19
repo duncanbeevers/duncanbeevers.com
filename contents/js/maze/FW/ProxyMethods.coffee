@@ -1,6 +1,4 @@
-FW = @FW ||= {}
-
-ProxyMethods = (proxy, target, methods) ->
+@ProxyMethods = (proxy, target, methods) ->
   if typeof methods == "string"
     method = methods
     proxy[method] = (args...) ->
@@ -10,5 +8,3 @@ ProxyMethods = (proxy, target, methods) ->
   else
     for method in methods
       ProxyMethods(proxy, target, method)
-
-FW.ProxyMethods = ProxyMethods

@@ -1,13 +1,17 @@
-FW = @FW ||= {}
+createjs = require("../../lib/easeljs-0.6.1.min.js")
+Container = createjs.Container
 
-class FW.ContainerProxy
+FW_ProxyProperties = require("./ProxyProperties.coffee").ProxyProperties
+FW_ProxyMethods = require("./ProxyMethods.coffee").ProxyMethods
+
+class @ContainerProxy
   constructor: () ->
-    container = new createjs.Container()
+    container = new Container()
     @_container = container
     instance = @
 
     parent = undefined
-    Object.defineProperty @, 'parent'
+    Object.defineProperty @, 'parent',
       get: -> parent
       set: (value) ->
         if parent
@@ -16,8 +20,8 @@ class FW.ContainerProxy
         if parent
           parent.addChild(container)
 
-    FW.ProxyProperties(instance, container, [ 'x', 'y', 'alpha', 'rotation', 'regX', 'regY', 'scaleX', 'scaleY', 'visible' ])
-    FW.ProxyMethods(instance, container, [ 'getStage', 'isVisible', 'addChild', 'removeChild', 'addEventListener', 'dispatchEvent', 'globalToLocal' ])
+    FW_ProxyProperties(instance, container, [ 'x', 'y', 'alpha', 'rotation', 'regX', 'regY', 'scaleX', 'scaleY', 'visible' ])
+    FW_ProxyMethods(instance, container, [ 'getStage', 'isVisible', 'addChild', 'removeChild', 'addEventListener', 'dispatchEvent', 'globalToLocal' ])
 
   # Custom overrides for a handful of methods
   updateContext: ->
@@ -29,3 +33,4 @@ class FW.ContainerProxy
     @onTick?()
 
   onTick: ->
+

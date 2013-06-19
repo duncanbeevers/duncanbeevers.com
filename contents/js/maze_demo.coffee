@@ -1,5 +1,9 @@
-game = require("./maze/game/Game.coffee")
+Game = require("./maze/game/Game.coffee").Game
+game = null
+hci = null
 
-tick = (context, width, height, now) ->
+tick = (ele, context, width, height, now) ->
+  if !game
+    game = new Game(ele)
 
 module.exports = tick

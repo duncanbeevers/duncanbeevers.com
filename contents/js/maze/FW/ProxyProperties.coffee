@@ -1,6 +1,4 @@
-FW = @FW ||= {}
-
-ProxyProperties = (proxy, original, properties) ->
+@ProxyProperties = (proxy, original, properties) ->
   if typeof properties == "string"
     property = properties
     Object.defineProperty proxy, property,
@@ -11,5 +9,3 @@ ProxyProperties = (proxy, original, properties) ->
   else
     for property in properties
       ProxyProperties(proxy, original, property)
-
-FW.ProxyProperties = ProxyProperties
