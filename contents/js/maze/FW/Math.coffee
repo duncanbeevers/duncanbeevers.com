@@ -1,5 +1,3 @@
-FW = @FW ||= {}
-
 PI = Math.PI
 TWO_PI = PI * 2
 
@@ -115,7 +113,7 @@ snap = (x, precision) ->
 
   newX / precision
 
-FW.Math =
+@Math =
   PI_AND_A_HALF        : PI + PI / 2
   TWO_PI               : TWO_PI
   RAD_TO_DEG           : 180 / PI
