@@ -1,0 +1,27 @@
+class @Preloader
+  constructor: (onProgress, onComplete) ->
+    instance = @
+    preloader = new createjs.PreloadJS()
+    preloader.installPlugin(createjs.SoundJS)
+
+    preloader.onProgress = (event) -> onProgress(event)
+    preloader.onComplete = (event) -> onComplete(event)
+
+    manifest = <%= assets_manifest_json %>
+
+    preloader.loadManifest(manifest)
+
+    @_manifest = manifest
+    @_preloader = preloader
+
+  getResult: (src) ->
+    @_preloader.getResult(src)
+
+  hydrateLevels: ->
+    preloader = @_preloader
+    @_levels = for payload in @_manifest when payload.src.match(/^levels\//)
+      result = @getResult(payload.id)
+      result.level ||= JSON.parse(result.result)
+
+  getLevels: ->
+    @_levels
