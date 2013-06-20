@@ -33,4 +33,3 @@ class @ContainerProxy
     @onTick?()
 
   onTick: ->
-
