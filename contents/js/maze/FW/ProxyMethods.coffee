@@ -1,4 +1,4 @@
-@ProxyMethods = (proxy, target, methods) ->
+ProxyMethods = (proxy, target, methods) ->
   if typeof methods == "string"
     method = methods
     proxy[method] = (args...) ->
@@ -8,3 +8,5 @@
   else
     for method in methods
       ProxyMethods(proxy, target, method)
+
+@ProxyMethods = ProxyMethods
