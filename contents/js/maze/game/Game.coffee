@@ -17,29 +17,9 @@ class @Game
 
     generatorExplorerScreen = new GeneratorExplorerScreen(game)
     sceneManager.addScene("generatorExplorer", generatorExplorerScreen)
-
-
     sceneManager.gotoScene("generatorExplorer")
 
     this.tick = -> stage.update()
-
-  pause: () ->
-    @_bgm.pause()
-    createjs.Ticker.setPaused(true)
-
-  unpause: () ->
-    @_bgm.resume()
-    createjs.Ticker.setPaused(false)
-
-  setProfileData: (profileName, profileData) ->
-    titleScreen = @_titleScreen
-    titleScreen.setProfileData(profileName, profileData)
-
-  returnToTitleScreen: ->
-    @_sceneManager.gotoScene("titleScreen")
-
-  setBgmTracks: (tracks) ->
-    @_bgmTracks = tracks
 
   getSceneManager: ->
     @_sceneManager
