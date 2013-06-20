@@ -1,9 +1,13 @@
 random = Math.random
 floor = Math.floor
 
+# demos = [
+#   require("./rdots_demo.coffee"),
+#   require("./lumps_demo.coffee")
+# ]
+
 demos = [
-  require("./rdots_demo.coffee"),
-  require("./lumps_demo.coffee")
+  require("./maze_demo.coffee")
 ]
 
 demo = demos[floor(random() * demos.length)]
