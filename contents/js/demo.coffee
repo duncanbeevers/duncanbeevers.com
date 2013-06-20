@@ -60,7 +60,7 @@ onTick = ->
     ele.height = ele_height
 
   # Invoke the plugin
-  demo(context, ele_width, ele_height, now)
+  demo(ele, context, ele_width, ele_height, now)
 
 module.exports =
   start: () ->

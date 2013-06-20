@@ -70,7 +70,7 @@ drawBlock = (perform_draw, now, i, block_width, block_height, combined_size, col
 block_size = 6
 gutter_size = 8
 
-tick = (context, width, height, now) ->
+tick = (ele, context, width, height, now) ->
   combined_size = block_size + gutter_size
 
   columns = floor(width / combined_size)

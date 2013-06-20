@@ -82,9 +82,7 @@ drawLump = (context, width, height, now) ->
   context.putImageData(image_data, rect_x1, rect_y1)
 
 
-tick = (context, width, height, now) ->
-  context.beginPath()
-
+tick = (ele, context, width, height, now) ->
   drawLump(context, width, height, now)
 
 module.exports = tick
