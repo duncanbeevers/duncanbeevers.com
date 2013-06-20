@@ -9,6 +9,7 @@ class @Game
     game = @
 
     stage = new createjs.Stage(canvas)
+    @_stage = stage
 
     sceneManager = new SceneManager(stage)
 
@@ -19,8 +20,6 @@ class @Game
     sceneManager.addScene("generatorExplorer", generatorExplorerScreen)
     sceneManager.gotoScene("generatorExplorer")
 
-    this.tick = -> stage.update()
-
   getSceneManager: ->
     @_sceneManager
 
@@ -28,3 +27,4 @@ class @Game
     @_preloader
 
   tick: ->
+    @_stage.update()

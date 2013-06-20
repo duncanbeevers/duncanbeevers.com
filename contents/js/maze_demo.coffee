@@ -6,4 +6,6 @@ tick = (ele, context, width, height, now) ->
   if !game
     game = new Game(ele)
 
+  do game.tick
+
 module.exports = tick
