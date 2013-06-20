@@ -23,8 +23,8 @@ drawLump = (context, width, height, now) ->
 
   clamped_width = width - size * 2
   clamped_height = height - size * 2
-  x = (now / 3) % clamped_width + size;
-  y = (Math.sin(now / 100) * clamped_height / 2) + height / 2
+  x = (now / width) % clamped_width + size;
+  y = (Math.sin(now / 400) * clamped_height / 2) + height / 2
 
 
   # Snag a piece of the context image data, but don't step over the bounds
