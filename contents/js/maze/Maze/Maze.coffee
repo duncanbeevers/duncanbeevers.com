@@ -1,6 +1,6 @@
 merge = require("../../lib/merge.coffee")
 
-generateMaze = (maze, done) ->
+generateMaze = (maze) ->
   recurse(maze, maze.initialIndex(), false)
 
 recurse = (maze, i, didBacktrack) ->

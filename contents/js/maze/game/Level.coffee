@@ -20,7 +20,7 @@ settings =
 maxViewportMeters = 6
 
 class @Level extends FW.ContainerProxy
-  constructor: (game, hci, mazeData, onMazeSolved) ->
+  constructor: (game, mazeData) ->
     level = @
 
     super()
@@ -59,7 +59,6 @@ class @Level extends FW.ContainerProxy
     level.setupMaze mazeData, mazeContainer, player, goal, -> level.onReady()
 
     level._game                    = game
-    level._hci                     = hci
     level._onMazeSolved            = onMazeSolved
     level._mazeContainer           = mazeContainer
     level._player                  = player
@@ -175,7 +174,6 @@ class @Level extends FW.ContainerProxy
 
 
   onEnterScene: ->
-    hci = @_hci
     level = @
 
     beginBacktrack = ->
@@ -190,16 +188,7 @@ class @Level extends FW.ContainerProxy
       else
         onActivatedPauseMenu(level)
 
-    @_hciSet = hci.on(
-      [ "keyDown:#{FW.HCI.KeyMap.SPACE}",  beginBacktrack ]
-      [ "keyUp:#{FW.HCI.KeyMap.SPACE}",    endBacktrack ]
-      [ "keyDown:#{FW.HCI.KeyMap.ENTER}",  onUtilityKey ]
-      [ "keyDown:#{FW.HCI.KeyMap.ESCAPE}", onUtilityKey ]
-    )
     @_harness = FW.MouseHarness.outfit(@_mazeContainer)
-
-  onLeaveScene: ->
-    @_hciSet.off()
 
   setupMaze: (mazeData, mazeContainer, player, goal, onComplete) ->
     mazeShape = new createjs.Shape()

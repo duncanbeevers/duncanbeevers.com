@@ -1,12 +1,7 @@
 .demo {
-  margin-top: 24px;
-  height: 264px;
-  width: 408px;
-}
-
-.bottom {
-  display: block;
-  position: absolute;
-  bottom: 0;
+  height: 100%;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }

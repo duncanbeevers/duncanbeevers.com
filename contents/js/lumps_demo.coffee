@@ -77,7 +77,6 @@ drawLump = (context, width, height, now) ->
       data[i + 1] = floor(clamp(green, 0, 255))
       data[i + 2] = floor(clamp(blue, 0, 255))
       data[i + 3] = floor(clamp(alpha, 0, 255))
-      # console.log(data[i], data[i + 1], data[i + 2], data[i + 3])
 
   context.putImageData(image_data, rect_x1, rect_y1)
 
