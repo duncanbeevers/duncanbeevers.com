@@ -1,6 +1,4 @@
-FW = @FW ||= {}
-
-FW.CreateJS ||= {}
+FW_Math = require("./Math.coffee").Math
 
 drawSegments = (graphics, color, segments) ->
   graphics.setStrokeStyle(0.2, 1, 0)
@@ -19,8 +17,8 @@ drawSegments = (graphics, color, segments) ->
     minY = Math.min(minY, y1, y2)
     maxX = Math.max(maxX, x1, x2)
     maxY = Math.max(maxY, y1, y2)
-    magnitude1 = FW.Math.magnitude(x1, y1)
-    magnitude2 = FW.Math.magnitude(x2, y2)
+    magnitude1 = FW_Math.magnitude(x1, y1)
+    magnitude2 = FW_Math.magnitude(x2, y2)
     maxMagnitude = Math.max(maxMagnitude, magnitude1, magnitude2)
 
   graphics.endStroke()
@@ -107,10 +105,10 @@ getColorWithinSegments = (segments, bitmap) ->
   blueSum     = 0
   alphaSum    = 0
 
-  x1 = FW.Math.clamp(Math.floor(minX / xScale + xOffset), 0, imageWidth)
-  y1 = FW.Math.clamp(Math.floor(minY / yScale + yOffset), 0, imageHeight)
-  x2 = FW.Math.clamp(Math.floor(maxX / xScale + xOffset), 0, imageWidth)
-  y2 = FW.Math.clamp(Math.floor(maxY / yScale + yOffset), 0, imageHeight)
+  x1 = FW_Math.clamp(Math.floor(minX / xScale + xOffset), 0, imageWidth)
+  y1 = FW_Math.clamp(Math.floor(minY / yScale + yOffset), 0, imageHeight)
+  x2 = FW_Math.clamp(Math.floor(maxX / xScale + xOffset), 0, imageWidth)
+  y2 = FW_Math.clamp(Math.floor(maxY / yScale + yOffset), 0, imageHeight)
 
   if segments.length
     for x in [x1..x2]
@@ -132,7 +130,7 @@ getColorWithinSegments = (segments, bitmap) ->
   else
     [ 0, 0, 0, 0 ]
 
-FW.CreateJS =
+@CreateJS =
   drawSegments: drawSegments
   getColorBoundsRect: getColorBoundsRect
   getFuzzyColorBoundsRect: getFuzzyColorBoundsRect
