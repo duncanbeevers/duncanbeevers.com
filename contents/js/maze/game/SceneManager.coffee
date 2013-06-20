@@ -6,6 +6,7 @@ class @SceneManager
   # Add the named scene to the dictionary of scenes
   addScene: (sceneName, scene) ->
     @_scenes[sceneName] = scene
+    # { andGoto: => @gotoScene(sceneName) }
 
   # Stop the current scene,
   # replace it with the named scene
