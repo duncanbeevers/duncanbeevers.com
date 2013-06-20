@@ -1,3 +1,5 @@
+merge = require("../../lib/merge.coffee")
+
 generateMaze = (maze, done) ->
   recurse(maze, maze.initialIndex(), false)
 
@@ -104,7 +106,7 @@ projectAndDrawMazeCell = (maze, i, cache) ->
 
     maze.projectedSegments = projectedSegments.concat(cellSegments)
 
-class @Maze
+class Maze
   constructor: (options) ->
     @_projectionEdgeCache = {}
     @_passages = []
@@ -124,7 +126,7 @@ class @Maze
         #   if error instanceof RangeError
         #     setTimeout fn
 
-    $.extend(@, defaultOptions, options)
+    merge(@, defaultOptions, options)
 
     if @initialize
       @initialize()
@@ -176,10 +178,8 @@ class @Maze
       segments: segments
       passages: passages
 
-Maze = @Maze ||= {}
-
 Maze.createInteractive = (options) ->
-  extendedOptions = $.extend({}, options)
+  extendedOptions = merge({}, options)
   maze = new Maze(extendedOptions)
   generateMaze(maze)
   maze
@@ -187,5 +187,7 @@ Maze.createInteractive = (options) ->
 Maze.createInstantaneous = (options) ->
   extendedOptions = $.extend({}, options, step: (fn) -> fn())
   maze = new Maze(extendedOptions)
-  generateMaze(maze)
+  generateMaze(extendedOptions)
   maze
+
+@Maze = Maze
