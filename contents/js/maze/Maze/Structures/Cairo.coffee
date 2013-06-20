@@ -1,7 +1,4 @@
-Maze = @Maze ||= {}
-Maze.Structures ||= {}
-
-Maze.Structures.Cairo =
+@Cairo =
   directions: (i) -> [ 0, 1, 2, 3, 4 ]
 
   translateDirection: (i, direction) ->

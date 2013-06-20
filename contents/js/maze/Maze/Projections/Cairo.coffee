@@ -1,4 +1,6 @@
-class Maze.Projections.Cairo extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @Cairo extends BaseProjection
   rowHeight: 4
   project: (maze, i, cache) ->
     cell = maze.cell(i)
