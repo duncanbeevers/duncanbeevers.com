@@ -1,9 +1,9 @@
 merge = require("../../lib/merge.coffee")
 
 FW_ContainerProxy = require("../FW/ContainerProxy.coffee").ContainerProxy
-FW_CreateJS = require("../FW/CreateJS.coffee").CreateJS
-FW_Math = require("../FW/Math.coffee").Math
-createjs = require("../../lib/easeljs-0.6.1.min.js")
+FW_CreateJS       = require("../FW/CreateJS.coffee").CreateJS
+FW_Math           = require("../FW/Math.coffee").Math
+createjs          = require("../../lib/easeljs-0.6.1.min.js")
 
 Maze = require("../Maze/Maze.coffee").Maze;
 CairoProjection           = require("../Maze/Projections/Cairo.coffee").Cairo
@@ -18,6 +18,15 @@ HoneycombProjection       = require("../Maze/Projections/Honeycomb.coffee").Hone
 HoneycombStructure        = require("../Maze/Structures/Honeycomb.coffee").Honeycomb
 SawToothProjection        = require("../Maze/Projections/SawTooth.coffee").SawTooth
 SawToothStructure         = require("../Maze/Structures/SawTooth.coffee").SawTooth
+
+choices = [
+  [ CairoStructure,         new CairoProjection(),         8, 64 ]
+  [ CrossToothStructure,    new CrossToothProjection(),    24, 96 ]
+  [ FoldedHexagonStructure, new FoldedHexagonProjection(), 24, 24 ]
+  [ GraphPaperStructure,    new GraphPaperProjection(),    24, 24 ]
+  [ HoneycombStructure,     new HoneycombProjection,       24, 24 ]
+  [ SawToothStructure,      new SawToothProjection(),      24, 48 ]
+]
 
 class @GeneratorExplorerScreen extends FW_ContainerProxy
   constructor: (game) ->
@@ -111,10 +120,14 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       draw: (segments) -> drawSegments("rgba(0, 0, 0, 0.04)", segments)
       done: onMazeAvailable
 
+    choice = FW_Math.sample(choices)
+
+    [ structure, projection, width, height ] = choice
+
     # Cairo
-    maze_options = merge maze_options, CairoStructure,
-      projection: new CairoProjection()
-      width: 8
-      height: 64
+    maze_options = merge maze_options, structure,
+      projection: projection
+      width: width
+      height: height
 
     Maze.createInteractive(maze_options)
