@@ -20,12 +20,12 @@ SawToothProjection        = require("../Maze/Projections/SawTooth.coffee").SawTo
 SawToothStructure         = require("../Maze/Structures/SawTooth.coffee").SawTooth
 
 choices = [
-  -> [ CairoStructure,         new CairoProjection(),         8, 64 ]
-  -> [ CrossToothStructure,    new CrossToothProjection(),    24, 96 ]
-  -> [ FoldedHexagonStructure, new FoldedHexagonProjection(), 24, 24 ]
-  -> [ GraphPaperStructure,    new GraphPaperProjection(),    24, 24 ]
-  -> [ HoneycombStructure,     new HoneycombProjection,       24, 24 ]
-  -> [ SawToothStructure,      new SawToothProjection(),      24, 48 ]
+  -> [ CairoStructure,         new CairoProjection(),         8, 64,  1 ]
+  -> [ CrossToothStructure,    new CrossToothProjection(),    24, 96, 1 ]
+  -> [ FoldedHexagonStructure, new FoldedHexagonProjection(), 24, 24, 1 ]
+  -> [ GraphPaperStructure,    new GraphPaperProjection(),    24, 24, 1 ]
+  -> [ HoneycombStructure,     new HoneycombProjection,       24, 24, 0.2 ]
+  -> [ SawToothStructure,      new SawToothProjection(),      24, 48, 1 ]
 ]
 
 class @GeneratorExplorerScreen extends FW_ContainerProxy
@@ -66,8 +66,6 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       [ x, y ] = centroidOfLastDraw
       targetX = -x * scale
       targetY = -y * scale
-      # panningContainer.x += (targetX - panningContainer.x) * movementScalar
-      # panningContainer.y += (targetY - panningContainer.y) * movementScalar
       targetRotation = Math.atan2(y, x)
       rotation_diff = (targetRotation - mazeContainer.rotation * FW_Math.DEG_TO_RAD) / 20
       mazeContainer.rotation += rotation_diff
@@ -78,7 +76,6 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
 
 
   onEnterScene: ->
-    console.log("You entered the generator explorer scene")
     stage = @parent
 
     offsetContainer = new createjs.Container()
@@ -108,6 +105,11 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     mazeGraphics = mazeShape.graphics
     mazeGraphics.clear()
 
+    mazeGraphics.endStroke()
+    mazeGraphics.setStrokeStyle(0.2, 1, 0)
+    mazeGraphics.beginStroke("rgba(48, 32, 48, 0.1)")
+    # mazeGraphics.beginStroke("rgba(0, 0, 0, 1)")
+
     onMazeAvailable = (maze) ->
       canvas = mazeContainer.getStage().canvas
       canvasWidth = canvas.width
@@ -119,8 +121,8 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       setTimeout(reset, 5000)
       # Something
 
-    drawSegments = (color, segments) ->
-      [_, _, _, _, _maxMagnitude] = FW_CreateJS.drawSegments(mazeGraphics, color, segments)
+    drawSegments = (segments) ->
+      [_, _, _, _, _maxMagnitude] = FW_CreateJS.drawSegments(mazeGraphics, segments)
       maxMagnitude = Math.max(screen._maxMagnitude, _maxMagnitude)
       screen._maxMagnitude = maxMagnitude
       centroid = FW_Math.centroidOfSegments(segments)
@@ -128,14 +130,17 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
         screen._centroidOfLastDraw = centroid
 
     maze_options =
-      draw: (segments) -> drawSegments("rgba(0, 0, 0, 1)", segments)
+      draw: (segments) -> drawSegments(segments)
       done: onMazeAvailable
 
     choice = do FW_Math.sample(choices)
 
-    [ structure, projection, width, height ] = choice
+    [ structure, projection, width, height, view_scalar ] = choice
 
-    # Cairo
+    parent = @_offsetContainer
+    parent.scaleX += (view_scalar - parent.scaleX) / 40
+    parent.scaleY = parent.scaleX
+
     maze_options = merge maze_options, structure,
       projection: projection
       width: width

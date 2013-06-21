@@ -1,9 +1,6 @@
 FW_Math = require("./Math.coffee").Math
 
-drawSegments = (graphics, color, segments) ->
-  graphics.setStrokeStyle(0.2, 1, 0)
-  graphics.beginStroke(color)
-
+drawSegments = (graphics, segments) ->
   minX = Infinity
   minY = Infinity
   maxX = -Infinity
@@ -20,8 +17,6 @@ drawSegments = (graphics, color, segments) ->
     magnitude1 = FW_Math.magnitude(x1, y1)
     magnitude2 = FW_Math.magnitude(x2, y2)
     maxMagnitude = Math.max(maxMagnitude, magnitude1, magnitude2)
-
-  graphics.endStroke()
 
   [ minX, minY, maxX, maxY, maxMagnitude ]
 

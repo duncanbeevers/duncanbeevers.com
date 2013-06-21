@@ -7,6 +7,7 @@ floor = Math.floor
 # ]
 
 demos = [
+  require("./rdots_demo.coffee")
   require("./maze_demo.coffee")
 ]
 

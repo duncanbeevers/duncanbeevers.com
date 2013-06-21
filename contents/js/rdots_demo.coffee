@@ -48,7 +48,7 @@ drawBlock = (perform_draw, now, i, block_width, block_height, combined_size, col
     [ red, green, blue ] = hsv2rgb(hue, saturation, value)
 
     # opacity = (row / rows) * (col / columns)
-    opacity = (row / rows)
+    opacity = (row / rows) * (row / rows)
     fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
 
     context.clearRect(col * combined_size, row * combined_size, block_width, block_height)
