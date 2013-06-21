@@ -25,7 +25,7 @@ GraphPaper = require("./GraphPaper.coffee").GraphPaper
       x * width + y
     else
       # Rely on the GraphPaper template translation
-      return Maze.Structures.GraphPaper.translateDirection.call(@, i, direction)
+      return GraphPaper.translateDirection.call(@, i, direction)
 
   initialIndex: () ->
     (@height - 1) * @width + 1
