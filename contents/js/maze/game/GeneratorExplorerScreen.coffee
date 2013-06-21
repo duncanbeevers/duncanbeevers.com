@@ -6,8 +6,18 @@ FW_Math = require("../FW/Math.coffee").Math
 createjs = require("../../lib/easeljs-0.6.1.min.js")
 
 Maze = require("../Maze/Maze.coffee").Maze;
-CairoProjection = require("../Maze/Projections/Cairo.coffee").Cairo
-CairoStructure = require("../Maze/Structures/Cairo.coffee").Cairo
+CairoProjection           = require("../Maze/Projections/Cairo.coffee").Cairo
+CairoStructure            = require("../Maze/Structures/Cairo.coffee").Cairo
+CrossToothProjection      = require("../Maze/Projections/CrossTooth.coffee").CrossTooth
+CrossToothStructure       = require("../Maze/Structures/CrossTooth.coffee").CrossTooth
+FoldedHexagonProjection   = require("../Maze/Projections/FoldedHexagon.coffee").FoldedHexagon
+FoldedHexagonStructure    = require("../Maze/Structures/FoldedHexagon.coffee").FoldedHexagon
+GraphPaperProjection      = require("../Maze/Projections/GraphPaper.coffee").GraphPaper
+GraphPaperStructure       = require("../Maze/Structures/GraphPaper.coffee").GraphPaper
+HoneycombProjection       = require("../Maze/Projections/Honeycomb.coffee").Honeycomb
+HoneycombStructure        = require("../Maze/Structures/Honeycomb.coffee").Honeycomb
+SawToothProjection        = require("../Maze/Projections/SawTooth.coffee").SawTooth
+SawToothStructure         = require("../Maze/Structures/SawTooth.coffee").SawTooth
 
 class @GeneratorExplorerScreen extends FW_ContainerProxy
   constructor: (game) ->
@@ -30,7 +40,10 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     offsetContainer.y = halfCanvasHeight
 
     canvasSize = Math.max(canvasWidth, canvasHeight)
-    targetScale = canvasSize / 15
+    if @_completedTargetScale
+      targetScale = @_completedTargetScale
+    else
+      targetScale = canvasSize / 15
 
     centroidOfLastDraw = @_centroidOfLastDraw
     scale = mazeContainer.scaleX + (targetScale - mazeContainer.scaleX) / 20
@@ -68,7 +81,8 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
 
   reset: ->
     screen = @
-    screen._centroidOfLastDraw = null
+    @_centroidOfLastDraw = null
+    @_completedTargetScale = null
     mazeContainer = @_mazeContainer
     mazeShape = @_mazeShape
     mazeGraphics = mazeShape.graphics
@@ -79,7 +93,7 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       canvasWidth = canvas.width
       canvasHeight = canvas.height
       canvasSize = Math.min(canvasWidth, canvasHeight)
-      screen._targetScale = canvasSize / (screen._maxMagnitude * 1.8)
+      screen._completedTargetScale = canvasSize / (screen._maxMagnitude * 1.8)
       screen._centroidOfLastDraw = [ 0, 0 ]
       reset = -> screen.reset()
       setTimeout(reset, 5000)
@@ -94,7 +108,7 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
         screen._centroidOfLastDraw = centroid
 
     maze_options =
-      draw: (segments) -> drawSegments("rgba(0, 0, 0, 0.02)", segments)
+      draw: (segments) -> drawSegments("rgba(0, 0, 0, 0.04)", segments)
       done: onMazeAvailable
 
     # Cairo
