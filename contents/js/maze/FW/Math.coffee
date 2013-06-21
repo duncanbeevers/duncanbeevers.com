@@ -123,6 +123,7 @@ snap = (x, precision) ->
   clamp                : clamp
   snap                 : snap
   wrapToCircle         : wrapToCircle
+  wrapToHalfCircle     : wrapToHalfCircle
   wrapToCircleDegrees  : wrapToCircleDegrees
   normalizeVector      : normalizeVector
   normalizeCoordinates : normalizeCoordinates
