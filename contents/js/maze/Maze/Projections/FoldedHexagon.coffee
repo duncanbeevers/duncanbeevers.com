@@ -1,4 +1,6 @@
-class Maze.Projections.FoldedHexagonCell extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @FoldedHexagon extends BaseProjection
   project: (maze, i, cache) ->
     cell = maze.cell(i)
 

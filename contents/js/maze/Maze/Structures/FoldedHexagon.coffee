@@ -1,4 +1,7 @@
-Maze.Structures.FoldedHexagon = $.extend {}, Maze.Structures.GraphPaper,
+merge = require("../../../lib/merge.coffee")
+GraphPaper = require("./GraphPaper.coffee").GraphPaper
+
+@FoldedHexagon = merge {}, GraphPaper,
   translateDirection: (i, direction) ->
     width = @width
     height = @height

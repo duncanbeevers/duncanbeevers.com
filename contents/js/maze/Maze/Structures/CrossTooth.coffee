@@ -1,4 +1,4 @@
-Maze.Structures.CrossTooth =
+@CrossTooth =
   directions: (i) -> [ 0, 1, 2 ]
 
   translateDirection: (i, direction) ->

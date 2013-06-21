@@ -1,4 +1,6 @@
-class Maze.Projections.SawTooth extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @SawTooth extends BaseProjection
   rowHeight: 2
   project: (maze, i, cache) ->
     cell = maze.cell(i)

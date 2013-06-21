@@ -1,4 +1,6 @@
-class Maze.Projections.GraphPaper extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @GraphPaper extends BaseProjection
   project: (maze, i, cache) ->
     cell = maze.cell(i)
     width = maze.width

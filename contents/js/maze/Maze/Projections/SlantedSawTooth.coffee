@@ -1,4 +1,6 @@
-class Maze.Projections.SlantedSawTooth extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @SlantedSawTooth extends BaseProjection
   constructor: (options) ->
     options ||= {}
     @peakAngle = FW.Math.clamp(options.peakAngle || 60, 15, 175)

@@ -1,4 +1,6 @@
-class Maze.Projections.Honeycomb extends Maze.Projections.BaseProjection
+BaseProjection = require("./BaseProjection.coffee").BaseProjection
+
+class @Honeycomb extends BaseProjection
   project: (maze, i, cache) ->
     w = 0.577350269189626   # 1 / Math.tan(FW.Math.DEG_TO_RAD * 60)
     h = 1.1547005383792517  # Math.sqrt(1 + Math.pow(w, 2))

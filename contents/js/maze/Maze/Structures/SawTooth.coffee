@@ -1,4 +1,4 @@
-Maze.Structures.SawTooth =
+@SawTooth =
   directions: (i) ->
     [ 0, 1, 2 ]
 
