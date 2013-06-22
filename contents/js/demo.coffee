@@ -34,7 +34,7 @@ getContext = do ->
     context ||= ele.getContext("2d")
 
 # shorthand function refences
-requestAnimationFrame = window.requestAnimationFrame
+requestAnimationFrame = window.requestAnimationFrame || window.setTimeout
 getComputedStyle      = window.getComputedStyle
 floor                 = Math.floor
 
