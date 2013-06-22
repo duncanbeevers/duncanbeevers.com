@@ -33,42 +33,42 @@ hsv2rgb = (h, s, v) ->
 
 
 # Draws the requested block to the 2d context
-drawBlock = (perform_draw, now, i, block_width, block_height, combined_size, columns, rows, context) ->
+drawBlock = (now, i, block_width, block_height, combined_size, columns, rows, context) ->
   col = floor(i / rows) % columns
   row = i % rows
 
   x = col * combined_size
   y = row * combined_size
 
-  if perform_draw
-    n = now / 2000
-    hue        = ((col / columns) * Math.PI * 2 + n) % (Math.PI * 2)
-    saturation = 1
-    value      = (row / rows) * 0.5
-    [ red, green, blue ] = hsv2rgb(hue, saturation, value)
+  n = now / 2000
+  hue        = ((col / columns) * Math.PI * 2 + n) % (Math.PI * 2)
+  saturation = 1
+  value      = (row / rows) * 0.5
+  [ red, green, blue ] = hsv2rgb(hue, saturation, value)
 
-    # opacity = (row / rows) * (col / columns)
-    opacity = (row / rows) * (row / rows)
-    fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
+  # opacity = (row / rows) * (col / columns)
+  opacity = (row / rows) * (row / rows)
+  fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
 
-    context.clearRect(col * combined_size, row * combined_size, block_width, block_height)
-    context.fillStyle = fill_style
-    context.beginPath()
-    context.arc(x + block_width / 2, y + block_height / 2, Math.min(block_width, block_height) / 2, 0, Math.PI * 2, 0)
-    context.fill()
-    # context.fillRect(x, y, block_width, block_height)
-  else
-    image_data = context.getImageData(x, y, block_width, block_height)
-    data = image_data.data
-    for a, i in data by 4
-      alpha = data[i + 3]
-      data[i + 3] = ceil(alpha - 1, 0)
+  context.clearRect(col * combined_size, row * combined_size, block_width, block_height)
+  context.fillStyle = fill_style
+  context.beginPath()
+  context.arc(x + block_width / 2, y + block_height / 2, Math.min(block_width, block_height) / 2, 0, Math.PI * 2, 0)
+  context.fill()
 
-    context.putImageData(image_data, x, y)
+fadeCanvas = (context, width, height) ->
+  image_data = context.getImageData(0, 0, width, height)
+  data = image_data.data
+  for a, i in data by 4
+    alpha = data[i + 3]
+    data[i + 3] = ceil(alpha - 1, 0)
+
+  context.putImageData(image_data, 0, 0)
 
 
 block_size = 6
 gutter_size = 8
+
 
 tick = (ele, context, width, height, now) ->
   combined_size = block_size + gutter_size
@@ -76,9 +76,9 @@ tick = (ele, context, width, height, now) ->
   columns = floor(width / combined_size)
   rows = floor(height / combined_size)
 
-  drawBlock(false, now, 0, width, height, 0, 1, 1, context)
+  fadeCanvas(context, width, height)
 
   for [1..20]
-    drawBlock(true, now, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
+    drawBlock(now, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
 
 module.exports = tick
