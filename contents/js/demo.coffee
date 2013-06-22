@@ -57,15 +57,17 @@ onTick = ->
   ele_computed_style = getComputedStyle(ele)
   ele_width = parseInt(ele_computed_style.width, 10)
   ele_height = parseInt(ele_computed_style.height, 10)
+  ele_changed = false
 
   # If the computed size of the element changed,
   # apply the values literally
   if ele.width != ele_width || ele.height != ele_height
     ele.width = ele_width
     ele.height = ele_height
+    ele_changed = true
 
   # Invoke the plugin
-  demo(ele, context, ele_width, ele_height, now)
+  demo(ele, context, ele_width, ele_height, now, ele_changed)
 
 module.exports =
   start: () ->

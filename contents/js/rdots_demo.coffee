@@ -31,9 +31,8 @@ hsv2rgb = (h, s, v) ->
 
   return [ map[i][0] * 255, map[i][1] * 255, map[i][2] * 255 ]
 
-
 # Draws the requested block to the 2d context
-drawBlock = (now, i, block_width, block_height, combined_size, columns, rows, context) ->
+doBlock = (now, i, block_width, block_height, combined_size, columns, rows, context, draw) ->
   col = floor(i / rows) % columns
   row = i % rows
 
@@ -46,38 +45,55 @@ drawBlock = (now, i, block_width, block_height, combined_size, columns, rows, co
   value      = (row / rows) * 0.5
   [ red, green, blue ] = hsv2rgb(hue, saturation, value)
 
-  # opacity = (row / rows) * (col / columns)
-  opacity = (row / rows) * (row / rows)
-  fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
 
   context.clearRect(col * combined_size, row * combined_size, block_width, block_height)
-  context.fillStyle = fill_style
-  context.beginPath()
-  context.arc(x + block_width / 2, y + block_height / 2, Math.min(block_width, block_height) / 2, 0, Math.PI * 2, 0)
-  context.fill()
 
-fadeCanvas = (context, width, height) ->
-  image_data = context.getImageData(0, 0, width, height)
-  data = image_data.data
-  for a, i in data by 4
-    alpha = data[i + 3]
-    data[i + 3] = ceil(alpha - 1, 0)
+  if draw
+    opacity = (row / rows) * (row / rows)
+    fill_style = "rgba(#{floor(red)}, #{floor(green)}, #{floor(blue)}, #{opacity})"
 
-  context.putImageData(image_data, 0, 0)
+    context.fillStyle = fill_style
+    context.beginPath()
+    context.arc(x + block_width / 2, y + block_height / 2, Math.min(block_width, block_height) / 2, 0, Math.PI * 2, 0)
+    context.fill()
+
+drawBlock = (now, i, block_width, block_height, combined_size, columns, rows, context) ->
+  doBlock(now, i, block_width, block_height, combined_size, columns, rows, context, true)
+
+clearBlock = (now, i, block_width, block_height, combined_size, columns, rows, context) ->
+  doBlock(now, i, block_width, block_height, combined_size, columns, rows, context, false)
+
+fader_canvas = global.document.createElement("canvas")
+fader_context = fader_canvas.getContext("2d")
+
+fadeCanvas = (ele, context, width, height, changed) ->
+  if changed
+    fader_canvas.width = width
+    fader_canvas.height = height
+
+  original_alpha = context.globalAlpha
+  fader_context.clearRect(0, 0, width, height)
+  fader_context.drawImage(ele, 0, 0)
+  context.globalAlpha = 0.95
+  context.clearRect(0, 0, width, height)
+  context.drawImage(fader_canvas, 0, 0)
+  context.globalAlpha = original_alpha
 
 
 block_size = 6
 gutter_size = 8
 
 
-tick = (ele, context, width, height, now) ->
+tick = (ele, context, width, height, now, changed) ->
   combined_size = block_size + gutter_size
 
   columns = floor(width / combined_size)
   rows = floor(height / combined_size)
 
-  fadeCanvas(context, width, height)
+  fadeCanvas(ele, context, width, height, changed)
 
+  for [1..20]
+    clearBlock(now, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
   for [1..20]
     drawBlock(now, floor(random() * columns * rows), block_size, block_size, combined_size, columns, rows, context)
 
