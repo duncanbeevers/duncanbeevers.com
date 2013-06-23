@@ -184,10 +184,4 @@ Maze.createInteractive = (options) ->
   generateMaze(maze)
   maze
 
-Maze.createInstantaneous = (options) ->
-  extendedOptions = $.extend({}, options, step: (fn) -> fn())
-  maze = new Maze(extendedOptions)
-  generateMaze(extendedOptions)
-  maze
-
 @Maze = Maze
