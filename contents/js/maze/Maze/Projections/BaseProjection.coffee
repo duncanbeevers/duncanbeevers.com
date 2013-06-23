@@ -4,6 +4,8 @@ class @BaseProjection
   rowHeight: 1
   columnWidth: 1
   segmentsForCellCircuit: (i, cell, points, cache) ->
+    @lastCircuit = points
+
     segments = []
 
     for direction, _i in cell

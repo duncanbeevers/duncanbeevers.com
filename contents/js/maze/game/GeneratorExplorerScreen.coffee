@@ -20,12 +20,13 @@ SawToothProjection        = require("../Maze/Projections/SawTooth.coffee").SawTo
 SawToothStructure         = require("../Maze/Structures/SawTooth.coffee").SawTooth
 
 choices = [
-  -> [ CairoStructure,         new CairoProjection(),         8, 64,  1 ]
+  -> [ CairoStructure,         new CairoProjection(),         16, 128, 1 ]
   -> [ CrossToothStructure,    new CrossToothProjection(),    24, 96, 1 ]
-  -> [ FoldedHexagonStructure, new FoldedHexagonProjection(), 24, 24, 1 ]
-  -> [ GraphPaperStructure,    new GraphPaperProjection(),    24, 24, 1 ]
-  -> [ HoneycombStructure,     new HoneycombProjection,       24, 24, 0.2 ]
-  -> [ SawToothStructure,      new SawToothProjection(),      24, 48, 1 ]
+  -> [ FoldedHexagonStructure, new FoldedHexagonProjection(), 48, 48, 1 ]
+  -> [ GraphPaperStructure,    new GraphPaperProjection(),    48, 48, 1 ]
+  -> [ HoneycombStructure,     new HoneycombProjection,       48, 48, 0.8 ]
+  -> [ SawToothStructure,      new SawToothProjection(),      48, 92, 1 ]
+  # -> [ GraphPaperStructure,    new GraphPaperProjection(),    6, 6, 0.2 ]
 ]
 
 class @GeneratorExplorerScreen extends FW_ContainerProxy
@@ -54,7 +55,7 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       targetScale = @_completedTargetScale
       movementScalar = 1 / 10
     else
-      targetScale = canvasSize / 15
+      targetScale = canvasSize / 50
       movementScalar = 1 / 150
 
     centroidOfLastDraw = @_centroidOfLastDraw
@@ -62,7 +63,9 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     mazeContainer.scaleX = scale
     mazeContainer.scaleY = scale
 
-    if centroidOfLastDraw
+    if @_completedTargetScale
+      mazeContainer.rotation += 0.1
+    else if centroidOfLastDraw
       [ x, y ] = centroidOfLastDraw
       targetX = -x * scale
       targetY = -y * scale
@@ -82,8 +85,10 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     panningContainer = new createjs.Container()
     mazeContainer = new createjs.Container()
     mazeShape = new createjs.Shape()
+    pathShape = new createjs.Shape()
 
     mazeContainer.addChild(mazeShape)
+    mazeContainer.addChild(pathShape)
 
     stage.addChild(offsetContainer)
     offsetContainer.addChild(panningContainer)
@@ -93,6 +98,7 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     @_panningContainer = panningContainer
     @_mazeContainer = mazeContainer
     @_mazeShape = mazeShape
+    @_pathShape = pathShape
 
     @reset()
 
@@ -104,6 +110,10 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     mazeShape = @_mazeShape
     mazeGraphics = mazeShape.graphics
     mazeGraphics.clear()
+    pathShape = @_pathShape
+    pathGraphics = pathShape.graphics
+    pathGraphics.clear()
+
 
     mazeGraphics.endStroke()
     mazeGraphics.setStrokeStyle(0.2, 1, 0)
@@ -117,6 +127,9 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       canvasSize = Math.max(canvasWidth, canvasHeight)
       screen._completedTargetScale = canvasSize / (screen._maxMagnitude * 1.8) * 2
       screen._centroidOfLastDraw = [ 0, 0 ]
+      console.log screen._centroidOfLastDraw
+      pathGraphics.clear()
+
       reset = -> screen.reset()
       setTimeout(reset, 5000)
       # Something
@@ -125,12 +138,33 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
       [_, _, _, _, _maxMagnitude] = FW_CreateJS.drawSegments(mazeGraphics, segments)
       maxMagnitude = Math.max(screen._maxMagnitude, _maxMagnitude)
       screen._maxMagnitude = maxMagnitude
-      centroid = FW_Math.centroidOfSegments(segments)
-      if centroid[0] && centroid[1]
-        screen._centroidOfLastDraw = centroid
+
+    drawCell = (vertices, centroid, color) ->
+      pathGraphics.clear()
+      pathGraphics.beginFill(color)
+      [initial_x, initial_y] = vertices.shift()
+      pathGraphics.moveTo(initial_x, initial_y)
+
+      for vertex in vertices
+        [x, y] = vertex
+        pathGraphics.lineTo(x, y)
+
+      pathGraphics.lineTo(initial_x, initial_y)
+      pathGraphics.endFill()
+
 
     maze_options =
       drawWalls: (segments) -> drawSegments(segments)
+      drawCell: (vertices, centroid, did_backtrack) ->
+        if centroid[0] && centroid[1]
+          screen._centroidOfLastDraw = centroid
+
+        if did_backtrack
+          color = "rgba(0, 128, 255, 0.5)"
+        else
+          color = "rgba(0, 0, 80, 0.5)"
+        drawCell(vertices, centroid, color)
+
       done: onMazeAvailable
 
     choice = do FW_Math.sample(choices)
@@ -138,7 +172,8 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
     [ structure, projection, width, height, view_scalar ] = choice
 
     parent = @_offsetContainer
-    parent.scaleX += (view_scalar - parent.scaleX) / 40
+    # parent.scaleX += (view_scalar - parent.scaleX) / 40
+    parent.scaleX = view_scalar
     parent.scaleY = parent.scaleX
 
     maze_options = merge maze_options, structure,

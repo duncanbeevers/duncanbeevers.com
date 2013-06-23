@@ -1,3 +1,4 @@
+FW_Math = require("../FW/Math.coffee").Math
 merge = require("../../lib/merge.coffee")
 
 generateMaze = (maze) ->
@@ -27,8 +28,10 @@ recurse = (maze, i, didBacktrack) ->
 
     maze._passages.push(i)
     addTunnel(maze, i, newI)
+    projectAndDrawMazeCell(maze, i, true)
   else
     projectAndDrawMazeWalls(maze, i, cache)
+    projectAndDrawMazeCell(maze, i, false)
     # Oh no! Nowhere to turn!
     # Backtrack until we find a spot to branch off again
     if maze.stack && maze.stack.length
@@ -106,6 +109,15 @@ projectAndDrawMazeWalls = (maze, i, cache) ->
 
     maze.projectedSegments = projectedSegments.concat(cellSegments)
 
+projectAndDrawMazeCell = (maze, i, did_backtrack) ->
+  if maze.projection && maze.drawCell
+    # Fire for side-effect
+    cellSegments = maze.projection.project(maze, i, {})
+    centroid = FW_Math.centroidOfSegments(cellSegments)
+    # Gather accumulated circuit
+    maze.drawCell(maze.projection.lastCircuit, centroid, did_backtrack)
+
+
 class Maze
   constructor: (options) ->
     @_projectionEdgeCache = {}
@@ -141,10 +153,10 @@ class Maze
       [ destination, tunnel ]
 
   serialize: ->
-    snap = (x) -> FW.Math.snap(x, 1000)
+    snap = (x) -> FW_Math.snap(x, 1000)
 
     centroid = (segments) ->
-      [x, y] = FW.Math.centroidOfSegments(segments)
+      [x, y] = FW_Math.centroidOfSegments(segments)
       [ snap(x), snap(y) ]
 
     # Find the end of the maze, the furthest from the start point
