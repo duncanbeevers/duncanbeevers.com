@@ -130,7 +130,7 @@ class @GeneratorExplorerScreen extends FW_ContainerProxy
         screen._centroidOfLastDraw = centroid
 
     maze_options =
-      draw: (segments) -> drawSegments(segments)
+      drawWalls: (segments) -> drawSegments(segments)
       done: onMazeAvailable
 
     choice = do FW_Math.sample(choices)

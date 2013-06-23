@@ -28,7 +28,7 @@ recurse = (maze, i, didBacktrack) ->
     maze._passages.push(i)
     addTunnel(maze, i, newI)
   else
-    projectAndDrawMazeCell(maze, i, cache)
+    projectAndDrawMazeWalls(maze, i, cache)
     # Oh no! Nowhere to turn!
     # Backtrack until we find a spot to branch off again
     if maze.stack && maze.stack.length
@@ -97,12 +97,12 @@ pickDirection = (maze, currentIndex) ->
   # Pick one at random
   return directions[Math.floor(Math.random() * directions.length)]
 
-projectAndDrawMazeCell = (maze, i, cache) ->
+projectAndDrawMazeWalls = (maze, i, cache) ->
   if maze.projection
     projectedSegments = maze.projectedSegments || []
     cellSegments = maze.projection.project(maze, i, cache)
-    if maze.draw
-      maze.draw(cellSegments)
+    if maze.drawWalls
+      maze.drawWalls(cellSegments)
 
     maze.projectedSegments = projectedSegments.concat(cellSegments)
 
